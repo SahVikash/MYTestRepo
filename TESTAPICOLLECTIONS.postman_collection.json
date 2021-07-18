@@ -1,0 +1,1428 @@
+{
+	"info": {
+		"_postman_id": "b2c92682-d79b-4cee-902d-6f2a3eacbe20",
+		"name": "TESTAPICOLLECTIONS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Create the Employee",
+					"item": [
+						{
+							"name": "Create the Employee data",
+							"item": [
+								{
+									"name": "Create the Employee data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"if (responseCode.code == 201) {\r",
+													"    //Parse the response Body  \r",
+													"    var responseBody = pm.response.json();\r",
+													"\r",
+													"    //Parse the Request Body\r",
+													"    console.log(JSON.parse(request.data));\r",
+													"\r",
+													"    var getRequestBody = JSON.parse(request.data);\r",
+													"    //Set the Request Body inside the env\r",
+													"    pm.environment.set(\"setTheEmployeeRequestBody\", getRequestBody);\r",
+													"\r",
+													"    pm.environment.set(\"setEmployeeId\", responseBody.id)//Dynamic\r",
+													"    pm.environment.set(\"setEmployeeEmailID\",responseBody.Email);\r",
+													"    pm.environment.set(\"setEmployeeFirstName\",responseBody.FirstName);\r",
+													"    pm.environment.set(\"setEmployeeDOB\",responseBody.DateOfBirth);\r",
+													"\r",
+													"    tests[\"Employee data get created successfully and Status Code is : \" + responseCode.code] = responseCode.code == 201;\r",
+													"\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"Employee data not get created successfully and Status Code is : \" + responseCode.code] = responseCode.code == 201;\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Create the randomnum\r",
+													"var randomNum = Math.floor((Math.random() * 10000));\r",
+													"//Unique Employee FirstName\r",
+													"var employeeFirstName = \"Salman\"+randomNum;\r",
+													"\r",
+													"//Set the Employee FirstName\r",
+													"pm.environment.set(\"setEmployeeFirstname\",employeeFirstName)\r",
+													"//Generate the unique EmailID\r",
+													"var employeeEmailID = employeeFirstName+\"@gmail.com\";\r",
+													"//Set the EmployeeEmail ID in the ENv\r",
+													"pm.environment.set(\"setEmployeeEmailID\",employeeEmailID);\r",
+													"\r",
+													"//Generate the Alraphanumeric num\r",
+													"let randomAplhaNumeric = Math.random().toString(36).substring(2,7);\r",
+													"\r",
+													"//To generate random String\r",
+													"function makeid(length) {\r",
+													"    var result           = '';\r",
+													"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzsdsdsdsdsdsdsd';\r",
+													"    var charactersLength = characters.length;\r",
+													"    for ( var i = 0; i < length; i++ ) {\r",
+													"      result += characters.charAt(Math.floor(Math.random() * \r",
+													" charactersLength));\r",
+													"   }\r",
+													"   return result;\r",
+													"}\r",
+													"\r",
+													"console.log(makeid(15))\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"FirstName\": \"{{setEmployeeFirstname}}\",\r\n    \"SurName\": \"{{surname}}\",\r\n    \"Prefix\": \"Er.\",\r\n    \"BirthSurName\": \"vicky\",\r\n   \"Email\": \"{{setEmployeeEmailID}}\",\r\n    \"Smoker\": false,\r\n    \"Smoke date\": null,\r\n    \"DateOfBirth\": \"2009-08-07\",\r\n    \"Type\": \"Client\",\r\n    \"Nationality\": \"IND\",\r\n    \"PhoneNumber\": 999999999,\r\n    \"Address\": [{\r\n        \"Street\": \"GandhiRoad\",\r\n        \"HouseNumber\": \"G-305\",\r\n        \"PostalCode\": \"1234567\",\r\n        \"City\": \"Gandhinagarss\",\r\n        \"Country\": \"IND\"\r\n    \r\n    },\r\n    {\r\n        \"Street\": \"GandhiRoad\",\r\n        \"HouseNumber\": \"G-305\",\r\n        \"PostalCode\": \"1234567\",\r\n        \"City\": \"Mumbai\",\r\n        \"Country\": \"IND\"\r\n    }]\r\n  \r\n   \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All EMployee data",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Create the randomnum\r",
+													"var randomNum = Math.floor((Math.random() * 10000));\r",
+													"console.log(randomNum);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"\r",
+													"if (responseCode.code == 200) {\r",
+													"\r",
+													"    //STore the Response data\r",
+													"    var responseBody = pm.response.json();\r",
+													"    //Get the EmployeeRequestBody\r",
+													"    var getTheEmployeeRequestBody = pm.environment.get(\"setTheEmployeeRequestBody\");\r",
+													"    //Get the Employee First Name \r",
+													"    var getEMployeeFirstName = pm.environment.get(\"setEmployeeFirstname\");\r",
+													"    //Get the Employee EMailID \r",
+													"    var getEMployeeEmailID = pm.environment.get(\"setEmployeeEmailID\");\r",
+													"    //Get the EMployee DOB\r",
+													"    var getEmployeeDOB = pm.environment.get(\"setEmployeeDOB\");\r",
+													"\r",
+													"    tests[\"Get the All EMployee data successfully and Status Code is: \" + responseCode.code] = responseCode.code == 200;\r",
+													"\r",
+													"    for (var i = 0; i < responseBody.length; i++) {\r",
+													"        //get the EMployee ID\r",
+													"        var getEmployeeID = pm.environment.get(\"setEmployeeId\");\r",
+													"        if (responseBody[i].id == getEmployeeID) {\r",
+													"            tests[\"Verify the EMployee FirstName : \" + responseBody[i].FirstName] = responseBody[i].FirstName == getEMployeeFirstName;\r",
+													"            tests[\"Verify the EMployee EmailID : \" + responseBody[i].Email] = responseBody[i].Email == getEMployeeEmailID;\r",
+													"\r",
+													"            tests[\"Verify the Employee DOB\"] = responseBody[i].DateOfBirth == getEmployeeDOB;\r",
+													"            tests[\"Verify the EMployee PhoneNumber\"] = responseBody[i].PhoneNumber == getTheEmployeeRequestBody.PhoneNumber;\r",
+													"            tests[\"Verify the EMployee Address.City\"] = responseBody[i].Address[0].City == getTheEmployeeRequestBody.Address[0].City;\r",
+													"            tests[\"Verify the EMployee Address.PostalCode\"] = responseBody[i].Address[1].PostalCode == getTheEmployeeRequestBody.Address[1].PostalCode;\r",
+													"\r",
+													"        }\r",
+													"\r",
+													"    }\r",
+													"\r",
+													"}\r",
+													"\r",
+													"else {\r",
+													"    tests[\"Get the All EMployee data not successfully and Status Code is: \" + responseCode.code] = responseCode.code == 200;\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{setEmployeeId}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{setEmployeeId}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees"
+											],
+											"query": [
+												{
+													"key": "FirstName",
+													"value": "{{Firstname}}",
+													"disabled": true
+												},
+												{
+													"key": "Email",
+													"value": "{{setEmployeeEmailID}}",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get employee By ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//To fetch response data\r",
+													"var responseBody = pm.response.json();\r",
+													"\r",
+													"\r",
+													"if (responseCode.code == 200) {\r",
+													"\r",
+													"    //Get the Employee ID\r",
+													"    var getEMployeeID = pm.environment.get(\"setEmployeeId\");\r",
+													"    \r",
+													"    //Get the Employee FirstName\r",
+													"   // var getEmployeeFirstName = pm.environment.get(\"setEmployeeFirstName\");\r",
+													"    //var getEmployeeEmailID =pm.environment.get(\"setEmployeeEmailID\");\r",
+													"    var getEmployeeDOB = pm.environment.get(\"setEmployeeDOB\");\r",
+													"    var getTheEmployeeRequestBody = pm.environment.get(\"setTheEmployeeRequestBody\");\r",
+													"    console.log(getTheEmployeeRequestBody.Address)\r",
+													"\r",
+													"    tests[\"ResponseCode get matched and users able to fetch the employee data successfully: \" + responseCode.code] = responseCode.code == 200;\r",
+													"    tests[\"Verified the employee FirstName: \" + responseBody.FirstName] = responseBody.FirstName == getTheEmployeeRequestBody.FirstName;\r",
+													"    tests[\"Verified the employee EMail: \" + responseBody.Email] = responseBody.Email == getTheEmployeeRequestBody.Email;\r",
+													"    tests[\"Verify the Employee DOB\"] = responseBody.DateOfBirth == getEmployeeDOB;\r",
+													"    tests[\"Verify the EMployee PhoneNumber\"] = responseBody.PhoneNumber ==getTheEmployeeRequestBody.PhoneNumber ;\r",
+													"    tests[\"Verify the EMployee Address.City\"] = responseBody.Address[0].City ==getTheEmployeeRequestBody.Address[0].City;\r",
+													"    tests[\"Verify the EMployee Address.PostalCode\"] = responseBody.Address[1].PostalCode == getTheEmployeeRequestBody.Address[1].PostalCode;\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"Employee data using ID not get fetched and ResponseCode is: \"+responseCode.code] = responseCode.code ==200;\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{setEmployeeId}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "",
+												"value": "",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees",
+												"{{setEmployeeId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get the employee data using firstname query param",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Create the randomnum\r",
+													"var randomNum = Math.floor((Math.random() * 10000));\r",
+													"console.log(randomNum);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"\r",
+													"if (responseCode.code == 200) {\r",
+													"\r",
+													"    //STore the Response data\r",
+													"    var responseBody = pm.response.json();\r",
+													"    //Get the employee request Body\r",
+													"    var getTheEmployeeRequestBody = pm.environment.get(\"setTheEmployeeRequestBody\");\r",
+													"\r",
+													"    tests[\"Verify the employee data using the query Parameter and Status Code is: \" + responseCode.code] = responseCode.code == 200;\r",
+													"\r",
+													"    for (var i = 0; i < responseBody.length; i++) {\r",
+													"        //get the EMployee ID\r",
+													"        var getEmployeeID = pm.environment.get(\"setEmployeeId\");\r",
+													"        if (responseBody[i].id == getEmployeeID) {\r",
+													"            tests[\"Verify the EMployee FirstName : \" + responseBody[i].FirstName] = responseBody[i].FirstName == getTheEmployeeRequestBody.FirstName ;\r",
+													"            tests[\"Verify the EMployee EmailID : \" + responseBody[i].Email] = responseBody[i].Email == getTheEmployeeRequestBody.Email;\r",
+													"\r",
+													"            tests[\"Verify the Employee DOB\"] = responseBody[i].DateOfBirth == getTheEmployeeRequestBody.DateOfBirth;\r",
+													"            tests[\"Verify the EMployee PhoneNumber\"] = responseBody[i].PhoneNumber == getTheEmployeeRequestBody.PhoneNumber;\r",
+													"            tests[\"Verify the EMployee Address.City\"] = responseBody[i].Address[0].City == getTheEmployeeRequestBody.Address[0].City;\r",
+													"            tests[\"Verify the EMployee Address.PostalCode\"] = responseBody[i].Address[1].PostalCode == getTheEmployeeRequestBody.Address[1].PostalCode;\r",
+													"\r",
+													"        }\r",
+													"\r",
+													"    }\r",
+													"\r",
+													"}\r",
+													"\r",
+													"else {\r",
+													"    tests[\"Get the All EMployee data not successfully and Status Code is: \" + responseCode.code] = responseCode.code == 200;\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{setEmployeeId}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{setEmployeeId}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees?FirstName={{setEmployeeFirstname}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees"
+											],
+											"query": [
+												{
+													"key": "FirstName",
+													"value": "{{setEmployeeFirstname}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Client Error",
+							"item": [
+								{
+									"name": "400 Bad Request",
+									"item": [
+										{
+											"name": "EMail ID is missing",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"\r",
+															"if(responseCode.code == 201)\r",
+															"{\r",
+															"  //Parse the response Body  \r",
+															"var responseBody = pm.response.json();\r",
+															"\r",
+															"//Parse the Request Body\r",
+															"console.log(JSON.parse(request.data));\r",
+															"\r",
+															"var getRequestBody = JSON.parse(request.data);\r",
+															"//Set the Request Body inside the env\r",
+															"pm.environment.set(\"setTheEmployeeRequestBody\",getRequestBody);\r",
+															"\r",
+															"pm.environment.set(\"setEmployeeId\",responseBody.id)//Dynamic\r",
+															"// pm.environment.set(\"setEmployeeEmailID\",responseBody.Email);\r",
+															"// pm.environment.set(\"setEmployeeFirstName\",responseBody.FirstName);\r",
+															"// pm.environment.set(\"setEmployeeDOB\",responseBody.DateOfBirth);\r",
+															"\r",
+															"//Set the DOB variable at collection\r",
+															"pm.collectionVariables.set(\"DOB\",\"2009-09-08\");\r",
+															"\r",
+															"\r",
+															"var getEmployeeFirstname = pm.environment.get(\"setEmployeeFirstname\")\r",
+															"\r",
+															"\r",
+															"tests[\"Employee data get created successfully and Status Code is : \"+responseCode.code] = responseCode.code == 201;\r",
+															"tests[\"Verify the Employee Name \"] = responseBody.FirstName == getRequestBody.FirstName;\r",
+															"\r",
+															"\r",
+															"}\r",
+															"else{\r",
+															"tests[\"Employee data not get created successfully and Status Code is : \"+responseCode.code] = responseCode.code == 201;\r",
+															"}\r",
+															""
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"//Create the randomnum\r",
+															"var randomNum = Math.floor((Math.random() * 10000));\r",
+															"//Unique Employee FirstName\r",
+															"var employeeFirstName = \"Salman\"+randomNum;\r",
+															"\r",
+															"//Set the Employee FirstName\r",
+															"pm.environment.set(\"setEmployeeFirstname\",employeeFirstName)\r",
+															"//Generate the unique EmailID\r",
+															"var employeeEmailID = employeeFirstName+\"@gmail.com\";\r",
+															"//Set the EmployeeEmail ID in the ENv\r",
+															"pm.environment.set(\"setEmployeeEmailID\",employeeEmailID);\r",
+															"\r",
+															"//Generate the Alraphanumeric num\r",
+															"let randomAplhaNumeric = Math.random().toString(36).substring(2,7);\r",
+															"\r",
+															"//To generate random String\r",
+															"function makeid(length) {\r",
+															"    var result           = '';\r",
+															"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzsdsdsdsdsdsdsd';\r",
+															"    var charactersLength = characters.length;\r",
+															"    for ( var i = 0; i < length; i++ ) {\r",
+															"      result += characters.charAt(Math.floor(Math.random() * \r",
+															" charactersLength));\r",
+															"   }\r",
+															"   return result;\r",
+															"}\r",
+															"\r",
+															"console.log(makeid(15))\r",
+															"\r",
+															"\r",
+															"\r",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"FirstName\": \"{{setEmployeeFirstname}}\",\r\n    \"SurName\": \"{{surname}}\",\r\n    \"Prefix\": \"Er.\",\r\n    \"BirthSurName\": \"vicky\",\r\n    \"Email\": \"{{setEmployeeEmailID}}\",\r\n    \"Smoker\": false,\r\n    \"Smoke date\": null,\r\n    \"DateOfBirth\": \"2009-08-07\",\r\n    \"Type\": \"Client\",\r\n    \"Nationality\": \"IND\",\r\n    \"PhoneNumber\": 999999999,\r\n    \"Address\": [{\r\n        \"Street\": \"GandhiRoad\",\r\n        \"HouseNumber\": \"G-305\",\r\n        \"PostalCode\": \"1234567\",\r\n        \"City\": \"Gandhinagarss\",\r\n        \"Country\": \"IND\"\r\n    \r\n    },\r\n    {\r\n        \"Street\": \"GandhiRoad\",\r\n        \"HouseNumber\": \"G-305\",\r\n        \"PostalCode\": \"1234567\",\r\n        \"City\": \"Mumbai\",\r\n        \"Country\": \"IND\"\r\n    }]\r\n  \r\n   \r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{protocol}}{{baseUrl}}/Employees",
+													"host": [
+														"{{protocol}}{{baseUrl}}"
+													],
+													"path": [
+														"Employees"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "404 Not Found",
+									"item": [
+										{
+											"name": "Get the invalid employee data",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"\r",
+															"if (responseCode.code == 404) {\r",
+															"  \r",
+															"    tests[\"Users unable to fetch the employee data using the invalid EMpID \" + responseCode.code] = responseCode.code == 404;\r",
+															"    \r",
+															"}\r",
+															"else {\r",
+															"    tests[\"Users able to fetch the employee data using the invalid EMpID \"+responseCode.code] = responseCode.code ==404;\r",
+															"}"
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{setEmployeeId}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "",
+														"value": "",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{protocol}}{{baseUrl}}/Employees/62632377hdhsh",
+													"host": [
+														"{{protocol}}{{baseUrl}}"
+													],
+													"path": [
+														"Employees",
+														"62632377hdhsh"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "401 Unauthorize",
+									"item": [
+										{
+											"name": "Create the data withOut AccessToken",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set(\"setTheUserAccessToken\",\"e443cd2cd48d3b6f8ebd92f231e591fe382c3b50d2069d194468a95c13f94444\");"
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"\r",
+															"if (responseCode.code == 401) {\r",
+															"  \r",
+															"    tests[\"Users unable to create the data without the access Token \" + responseCode.code] = responseCode.code == 401;\r",
+															"    \r",
+															"}\r",
+															"else {\r",
+															"    tests[\"Users able to create the data without the access Token \"+responseCode.code] = responseCode.code ==401;\r",
+															"}"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "sgdsgd",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \r\n    \"name\": \"Snehasis Das\",\r\n    \"email\": \"SnehasisDas1234@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "https://gorest.co.in/public/v1/users",
+													"protocol": "https",
+													"host": [
+														"gorest",
+														"co",
+														"in"
+													],
+													"path": [
+														"public",
+														"v1",
+														"users"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "403 Forbidden",
+									"item": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//APITEST-1001(Create the employee data and Verify the data)"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Update the Employee data using Patch",
+					"item": [
+						{
+							"name": "Update the data using single property",
+							"item": [
+								{
+									"name": "Updating the Single Employee data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (responseCode.code == 200) {\r",
+													"    tests[\"Update the employee successfully using the PATCH method\"] = responseCode.code == 200;\r",
+													"\r",
+													"    //Set the Patch Request Body\r",
+													"    var updatedRequestData = JSON.parse(request.data);\r",
+													"    pm.environment.set(\"setUpdatedEmpRequestBody\",updatedRequestData);\r",
+													"\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"Data not get Updated  successfully using the PATCH method\"] = responseCode.code == 200\r",
+													"\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "ghp_u96re4vzuqi4sGyttEPZvZWVrFOXub4fA1v",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \r\n     \"PhoneNumber\": 8989999999\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees",
+												"{{setEmployeeId}}"
+											],
+											"query": [
+												{
+													"key": "Content",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verify the Updated Employee data Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (responseCode.code == 200) {\r",
+													"\r",
+													"    //To get the response Data\r",
+													"    var responseBody = pm.response.json();\r",
+													"    //Get the Updated EMployee Data\r",
+													"    var getUpdatedEmpRequestBody= pm.environment.get(\"setUpdatedEmpRequestBody\");\r",
+													"\r",
+													"    tests[\"employee data get fetched successfully\"] = responseCode.code == 200;\r",
+													"\r",
+													"   tests[\"Verify the Updated Employee PhoneNo \"] = responseBody.PhoneNumber == getUpdatedEmpRequestBody.PhoneNumber;\r",
+													"  \r",
+													"\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"employee data not get fetched successfully\"] = responseCode.code == 200\r",
+													"\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees",
+												"{{setEmployeeId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Update the employee data using multiple properties",
+							"item": [
+								{
+									"name": "Updating the Multiple Employee data properties",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (responseCode.code == 200) {\r",
+													"    tests[\"Update the employee successfully using the PATCH method\"] = responseCode.code == 200;\r",
+													"\r",
+													"    //Set the Patch Request Body\r",
+													"    var updatedRequestData = JSON.parse(request.data);\r",
+													"    pm.environment.set(\"setUpdatedEmpRequestBody\",updatedRequestData);\r",
+													"\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"Data not get Updated  successfully using the PATCH method\"] = responseCode.code == 200\r",
+													"\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "ghp_u96re4vzuqi4sGyttEPZvZWVrFOXub4fA1v",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"FirstName\":\"{{setEmployeeFirstname}}Update\",\r\n    \"Nationality\": \"IND\",\r\n    \"Email\": \"{{setEmployeeEmailID}}\",\r\n     \"PhoneNumber\": 8989999999,\r\n     \"Address\": [{\r\n        \"Street\": \"GandhiRoad\",\r\n        \"HouseNumber\": \"G-305\",\r\n        \"PostalCode\": \"1234567\",\r\n        \"City\": \"Gandhinagarss\",\r\n        \"Country\": \"IND\"\r\n    \r\n    }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees",
+												"{{setEmployeeId}}"
+											],
+											"query": [
+												{
+													"key": "Content",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verify the Updated Employee data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (responseCode.code == 200) {\r",
+													"\r",
+													"    //To get the response Data\r",
+													"    var responseBody = pm.response.json();\r",
+													"    //Get the Updated EMployee Data\r",
+													"    var getUpdatedEmpRequestBody= pm.environment.get(\"setUpdatedEmpRequestBody\");\r",
+													"\r",
+													"    tests[\"employee data get fetched successfully\"] = responseCode.code == 200;\r",
+													"    tests[\"Verify the Updated FirstName \"] = responseBody.FirstName == getUpdatedEmpRequestBody.FirstName;\r",
+													"     tests[\"Verify the Updated Employee Nationality \"] = responseBody.Nationality == getUpdatedEmpRequestBody.Nationality;\r",
+													"  tests[\"Verify the Updated Employee EmailID \"] = responseBody.Email == getUpdatedEmpRequestBody.Email;\r",
+													"   tests[\"Verify the Updated Employee PhoneNo \"] = responseBody.PhoneNumber == getUpdatedEmpRequestBody.PhoneNumber;\r",
+													"  \r",
+													"\r",
+													"}\r",
+													"else {\r",
+													"    tests[\"employee data not get fetched successfully\"] = responseCode.code == 200\r",
+													"\r",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+											"host": [
+												"{{protocol}}{{baseUrl}}"
+											],
+											"path": [
+												"Employees",
+												"{{setEmployeeId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//APITEST -1002(Update the employee data and verify the same)",
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "PUT_ Update the employee data",
+					"item": [
+						{
+							"name": "Update the employee data using the PUT Method",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseCode.code == 200) {\r",
+											"    tests[\"Update the employee successfully using the PUT method\"] = responseCode.code == 200;\r",
+											"\r",
+											"    //Set the Patch Request Body\r",
+											"    var updatedRequestData_PUT = JSON.parse(request.data);\r",
+											"    pm.environment.set(\"setUpdatedEmpRequestBody_PUT\",updatedRequestData_PUT);\r",
+											"\r",
+											"}\r",
+											"else {\r",
+											"    tests[\"Data not get Updated  successfully using the PATCH method\"] = responseCode.code == 200\r",
+											"\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"{{setEmployeeFirstname}}Update\",\r\n    \"Nationality\": \"IND\",\r\n    \"Email\": \"{{setEmployeeEmailID}}\",\r\n    \"PhoneNumber\": 8989999999,\r\n    \"Address\": [\r\n        {\r\n            \"Street\": \"GandhiRoad\",\r\n            \"HouseNumber\": \"G-305\",\r\n            \"PostalCode\": \"1234567\",\r\n            \"City\": \"Gandhinagarss\",\r\n            \"Country\": \"IND\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+									"host": [
+										"{{protocol}}{{baseUrl}}"
+									],
+									"path": [
+										"Employees",
+										"{{setEmployeeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify the PUT method updated employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseCode.code == 200) {\r",
+											"\r",
+											"    //To get the response Data\r",
+											"    var responseBody = pm.response.json();\r",
+											"    //Get the Updated EMployee Data\r",
+											"    var getUpdatedEmpRequestBody_PUT= pm.environment.get(\"setUpdatedEmpRequestBody_PUT\");\r",
+											"    console.log(getUpdatedEmpRequestBody_PUT);\r",
+											"\r",
+											"    tests[\"employee data get fetched successfully\"] = responseCode.code == 200;\r",
+											"    tests[\"Verify the Updated FirstName \"] = responseBody.FirstName == getUpdatedEmpRequestBody_PUT.FirstName;\r",
+											"     tests[\"Verify the Updated Employee Nationality \"] = responseBody.Nationality == getUpdatedEmpRequestBody_PUT.Nationality;\r",
+											"  tests[\"Verify the Updated Employee EmailID \"] = responseBody.Email == getUpdatedEmpRequestBody_PUT.Email;\r",
+											"   tests[\"Verify the Updated Employee PhoneNo \"] = responseBody.PhoneNumber == getUpdatedEmpRequestBody_PUT.PhoneNumber;\r",
+											"  \r",
+											"\r",
+											"}\r",
+											"else {\r",
+											"    tests[\"employee data not get fetched successfully\"] = responseCode.code == 200\r",
+											"\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+									"host": [
+										"{{protocol}}{{baseUrl}}"
+									],
+									"path": [
+										"Employees",
+										"{{setEmployeeId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//APITEST - 1003(Update/replace the data using PUT and verify the same)"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Delete the employee Data",
+					"item": [
+						{
+							"name": "Delete the Employee data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseCode.code == 200) {\r",
+											"\r",
+											"   tests[\"employee data successfully get deleted\"] = responseCode.code == 200\r",
+											"  \r",
+											"\r",
+											"}\r",
+											"else {\r",
+											"    tests[\"employee data not get successfully deleted\"] = responseCode.code == 200\r",
+											"\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+									"host": [
+										"{{protocol}}{{baseUrl}}"
+									],
+									"path": [
+										"Employees",
+										"{{setEmployeeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify the deleted data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(responseCode.code == 404)\r",
+											"{\r",
+											"    tests[\"Employee data successfully get deleted\"] = responseCode.code == 404\r",
+											"}\r",
+											"else{\r",
+											"     tests[\"Employee data not get deleted\"] = responseCode.code == 404\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}{{baseUrl}}/Employees/{{setEmployeeId}}",
+									"host": [
+										"{{protocol}}{{baseUrl}}"
+									],
+									"path": [
+										"Employees",
+										"{{setEmployeeId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//APITEST-1004(Delete the Create the EMployee and Verify the Same)"
+								]
+							}
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//APITEST-1001(Create the employee data and Verify the data)",
+							"//APITEST -1002(Update the employee data and verify the same)",
+							"//APITEST - 1003(Update/replace the data using PUT and verify the same)"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create the New User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"setTheUserAccessToken\",\"e443cd2cd48d3b6f8ebd92f231e591fe382c3b50d2069d194468a95c13f94444\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "e443cd2cd48d3b6f8ebd92f231e591fe382c3b50d2069d194468a95c13f94444",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"name\": \"Snehasis Das\",\r\n    \"email\": \"SnehasisDas1234@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v1/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the All User data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{setTheUserAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gorest.co.in/public/v1/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the Users data using ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{setTheUserAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gorest.co.in/public/v1/users/ 1372",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v1",
+								"users",
+								" 1372"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the Users Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{setTheUserAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://gorest.co.in/public/v1/users/ 1391",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v1",
+								"users",
+								" 1391"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CollV",
+			"value": ""
+		},
+		{
+			"key": "DOB",
+			"value": ""
+		},
+		{
+			"key": "protocol",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "setEmployeeBodyInColl",
+			"value": ""
+		},
+		{
+			"key": "setTheUserAccessToken",
+			"value": ""
+		}
+	]
+}
